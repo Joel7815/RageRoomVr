@@ -5,6 +5,7 @@ import { PickupObject } from './PickUpObject.js';
 import { SceneManager } from './SceneManager.js';
 import { Renderer } from './Renderer.js';
 import { CameraAndScene } from './CameraAndScene.js';
+import { CollisionHandler } from './CollisionHandler.js'; 
 
 export class FirstPersonCameraDemo {
   constructor() {
@@ -17,13 +18,15 @@ export class FirstPersonCameraDemo {
   // Initialize various components of the demo
   initialize_() {
       this.initializePhysicsWorld_();
-      this.sceneManager = new SceneManager(this.physicsWorld);
+      this.sceneManager = new SceneManager(this.physicsWorld); 
+      this.collisionHandler = new CollisionHandler(this.physicsWorld, this.sceneManager.scene);
+      this.sceneManager.setCollisionHandler(this.collisionHandler);
       this.initializePostFX_();
       this.initializeDemo_();
       this.previousRAF_ = null;
       this.raf_();
       this.onWindowResize_();
-  }
+    }
 
   // Initialize the physics world
   initializePhysicsWorld_() {
@@ -64,6 +67,7 @@ export class FirstPersonCameraDemo {
     const timeElapsedS = timeElapsed * 0.001;
     this.updateWorld(timeElapsedS);
     this.handlePickupLogic();
+    this.collisionHandler.update();
     }
 
     updateWorld(timeElapsedS) {

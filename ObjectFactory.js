@@ -47,6 +47,7 @@ export class ObjectFactory {
         this.physicsWorld.addBody(cubeBody);
 
         cube.cannonBody = cubeBody;
+        cubeBody.box = true; // Tagging the box
         
         this.objects.push(cube);
         return cube;

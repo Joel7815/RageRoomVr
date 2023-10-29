@@ -1,16 +1,35 @@
 import * as THREE from 'https://cdn.skypack.dev/three@0.136';
 import { ObjectFactory } from './ObjectFactory.js';
 import { createEnemies } from './EnemyFactory.js';
+import { CollisionHandler } from './CollisionHandler.js'; // Adjust the path as necessary
+
 
 
 export class SceneManager {
-    constructor(physicsWorld) {
+    constructor(physicsWorld, collisionHandler) {
+        this.physicsWorld = physicsWorld;
+        this.collisionHandler = collisionHandler;
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0x0000FF); // Blue sky
         this.objectFactory = new ObjectFactory(physicsWorld);
-        this.initializeObjects();
+        
+        if (this.collisionHandler) { // Check if collisionHandler is defined
+            this.initializeObjects();
+        }
+        
         this.initializeLights();
     }
+
+    // You can call this method after the SceneManager is constructed
+    setCollisionHandler(collisionHandler) {
+        this.collisionHandler = collisionHandler;
+        
+        if (this.collisionHandler) { // Check if collisionHandler is now defined
+            this.initializeObjects();
+        }
+    }
+
+
 
     initializeObjects() {
         // Creating the ground
@@ -30,7 +49,7 @@ export class SceneManager {
 
     initializeEnemies() {
         const groundY = 0; // adjust based on your actual ground position
-        this.enemies = createEnemies(5, groundY);
+        this.enemies = createEnemies(5, groundY, this.physicsWorld, this.collisionHandler.handleCollision.bind(this.collisionHandler));
         this.enemies.forEach(enemy => {
             this.scene.add(enemy);
         });

@@ -10,7 +10,7 @@ export class SceneManager {
         this.physicsWorld = physicsWorld;
         this.collisionHandler = collisionHandler;
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x0000FF); // Blue sky
+        this.scene.background = new THREE.Color(0x50505); // Blue sky
         this.objectFactory = new ObjectFactory(physicsWorld);
         
         if (this.collisionHandler) { // Check if collisionHandler is defined

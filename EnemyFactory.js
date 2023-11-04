@@ -5,7 +5,7 @@ import { CollisionHandler } from './CollisionHandler.js'; // Adjust the path as 
 
 function createHead() {
     const headGeometry = new THREE.SphereGeometry(1, 32, 32);
-    const headMaterial = new THREE.MeshBasicMaterial({color: 0x000000}); // Black color
+    const headMaterial = new THREE.MeshBasicMaterial({color: 0xF2542D}); // Black color
     return new THREE.Mesh(headGeometry, headMaterial);
 }
 
@@ -18,19 +18,19 @@ function createEyePart(parent, color, size, zPosition) {
 }
 
 function createEye(x, y, z) {
-    const eyeMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF}); // White color
+    const eyeMaterial = new THREE.MeshBasicMaterial({color: 0x058ED9}); // White color0x058ED9
     const eye = new THREE.Mesh(new THREE.SphereGeometry(0.25, 32, 32), eyeMaterial);
     eye.position.set(x, y, z);
     
-    createEyePart(eye, 0x000000, 0.05, 0.25); // Black pupil
-    createEyePart(eye, 0x4285F4, 0.1, 0.25); // Blue iris
+    createEyePart(eye, 0x092140C, 0.05, 0.25); // Black pupil
+    createEyePart(eye, 0x50505, 0.1, 0.25); // Blue iris
     
     return eye;
 }
 
 function createTooth(x, y, z) {
     const toothGeometry = new THREE.ConeGeometry(0.2, 1, 32); // Cone shapes for teeth
-    const toothMaterial = new THREE.MeshBasicMaterial({color: 0xFFFFFF}); // White color
+    const toothMaterial = new THREE.MeshBasicMaterial({color: 0xFCF7FF}); // White color
     const tooth = new THREE.Mesh(toothGeometry, toothMaterial);
     tooth.position.set(x, y, z);
     tooth.rotation.x = Math.PI; // Rotate 180 degrees around the x-axis to flip the teeth

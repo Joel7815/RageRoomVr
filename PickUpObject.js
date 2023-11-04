@@ -16,7 +16,7 @@ export class PickupObject {
         
         const intersects = raycaster.intersectObjects(this.scene_.children);
         for (let intersect of intersects) {
-            if (intersect.object.material.color.equals(new THREE.Color(0xFF0000))) {
+            if (intersect.object.material.color.equals(new THREE.Color(0x9000B3))) {
                 this.selectedObject = intersect.object;
                 this.selectedBody = intersect.object.cannonBody; // Accessing the Cannon.js body
                 

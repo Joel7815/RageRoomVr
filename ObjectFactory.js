@@ -6,8 +6,8 @@ export class ObjectFactory {
     constructor(physicsWorld) {
         this.physicsWorld = physicsWorld;
         this.objects = [];
-        this.defaultPlaneMaterial = new THREE.MeshStandardMaterial({ color: 0x000000 });
-        this.defaultCubeMaterial = new THREE.MeshStandardMaterial({ color: 0xFF0000 });
+        this.defaultPlaneMaterial = new THREE.MeshStandardMaterial({ color: 0x85CB33 });
+        this.defaultCubeMaterial = new THREE.MeshStandardMaterial({ color: 0x9000B3 });
     }
 
     createGround(size = 100) {

@@ -1,2 +1,2 @@
 # RageRoomVr
-Trying to make a Rage Room in VR, still in development phase
+Trying to make a game in VR using JS, still in development phase

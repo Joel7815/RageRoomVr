@@ -37,7 +37,8 @@ function createTooth(x, y, z) {
     return tooth;
 }
 
-function createEnemy(x, y, z, physicsWorld, handleCollision) {
+function createEnemy(x, y, z, physicsWorld, handleCollision, scene) {
+    console.log(`Enemy created at position: ${x}, ${y}, ${z}`);
     const enemy = new THREE.Group();
 
     const head = createHead();
@@ -66,8 +67,11 @@ function createEnemy(x, y, z, physicsWorld, handleCollision) {
     enemy.position.set(x, y, z);
 
     const enemyBody = new CANNON.Body({
-        mass: 1, // Adjust the mass as needed
-        position: new CANNON.Vec3(x, y, z)
+        mass: 0.5, // Adjust the mass as needed
+        position: new CANNON.Vec3(x, y, z),
+        linearDamping: 0.05,
+        angularDamping: 0.05,
+        fixedRotation: true,
     });
     const enemyShape = new CANNON.Sphere(1); // Radius of the sphere, adjust as needed
     enemyBody.addShape(enemyShape);
@@ -85,20 +89,27 @@ function createEnemy(x, y, z, physicsWorld, handleCollision) {
             child.userData.body = enemyBody;
         }
     });
-
+    // Create an arrow helper to visualize force
+    const arrowDir = new THREE.Vector3(0, 1, 0); // Initial direction
+    const arrowOrigin = new THREE.Vector3(x, y, z); // Position
+    const arrowLength = 1;
+    const arrowColor = 0xff0000; // Red for visibility
+    enemy.forceArrow = new THREE.ArrowHelper(arrowDir, arrowOrigin, arrowLength, arrowColor);
+    scene.add(enemy.forceArrow);
+    console.log('Arrow helper added to enemy:', enemy);
 
     
     return enemy;
 }
 
-export function createEnemies(numEnemies, groundY, physicsWorld, handleCollision) {
+export function createEnemies(numEnemies, groundY, physicsWorld, handleCollision, scene) {
     const enemies = [];
     for (let i = 0; i < numEnemies; i++) {
         const x = Math.random() * 20 - 10; // Random x position between -10 and 10
         const y = groundY + Math.random() * 5 + 2; // Random y position above the ground
         const z = Math.random() * 20 - 10; // Random z position between -10 and 10
         
-        const enemy = createEnemy(x, y, z, physicsWorld, handleCollision);
+        const enemy = createEnemy(x, y, z, physicsWorld, handleCollision, scene);
         enemies.push(enemy);
     }
     return enemies;

@@ -2,6 +2,7 @@ import * as THREE from 'https://cdn.skypack.dev/three@0.136';
 import { ObjectFactory } from './ObjectFactory.js';
 import { createEnemies } from './EnemyFactory.js';
 import { CollisionHandler } from './CollisionHandler.js'; // Adjust the path as necessary
+import { EnemyMovement } from './EnemyMovement.js';
 
 
 
@@ -12,6 +13,7 @@ export class SceneManager {
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0x50505); // Blue sky
         this.objectFactory = new ObjectFactory(physicsWorld);
+        this.enemyMovement = null;
         
         if (this.collisionHandler) { // Check if collisionHandler is defined
             this.initializeObjects();
@@ -45,14 +47,16 @@ export class SceneManager {
             this.scene.add(cube);
         }
         this.initializeEnemies();
+        this.enemyMovement = new EnemyMovement(this.enemies, this.physicsWorld);
     }
 
     initializeEnemies() {
         const groundY = 0; // adjust based on your actual ground position
-        this.enemies = createEnemies(5, groundY, this.physicsWorld, this.collisionHandler.handleCollision.bind(this.collisionHandler));
+        this.enemies = createEnemies(2, groundY, this.physicsWorld, this.collisionHandler.handleCollision.bind(this.collisionHandler), this.scene);
         this.enemies.forEach(enemy => {
             this.scene.add(enemy);
         });
+        this.enemyMovement = new EnemyMovement(this.enemies, this.physicsWorld);
     }
     
 
@@ -62,6 +66,16 @@ export class SceneManager {
         this.scene.add(light);
         this.scene.add(new THREE.AmbientLight(0x404040)); // Ambient light
     }
+
+    update(timeElapsed) {
+        // First, update enemy movements
+        if (this.enemyMovement) {
+          this.enemyMovement.update(timeElapsed);
+        }
+    }
+
+    
+    
 
     updateObjects() {
         this.scene.children.forEach((threeObject) => {
